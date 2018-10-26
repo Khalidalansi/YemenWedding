@@ -1,0 +1,122 @@
+<?php
+require_once('session.php');
+require_once('../db/hallandpic.php');
+if($_SESSION['user_info']==false)
+		 {
+			  header('Location:index.php');
+		 }
+if(!empty($_SESSION['user_info']))
+    {
+        $id_clinte=$_SESSION['user_info'];
+    }
+if(isset($_POST['hall_id']))
+{
+	$hall_id=$_POST['hall_id'];
+	if(empty($hall_id))
+	{
+		die('not font page');
+	}
+
+if(isset($_POST['name_hall']))
+    {
+        if(!empty($_POST['name_hall']))
+        {
+           $hall_name=strip_tags(trim($_POST['name_hall'])); 
+           $GetHallId=dyw_hall_get_buy_name($hall_name);
+                if($GetHallId)
+                {
+                        dyw_db_close();
+                        die("اسم القاعه موجود لدينا سابقاً");
+                }
+        }       
+    }  
+else{$hall_name=NULL;}
+
+if(isset($_POST['address_hall']))
+    {
+        if(!empty($_POST['address_hall']))
+        {
+           $hall_address=$_POST['address_hall']; 
+        }
+         
+    }
+    else{$hall_address=NULL;}
+    
+    if(isset($_POST['city_hall']))
+    {
+        if(!empty($_POST['city_hall']))
+        {
+           $hall_city=$_POST['city_hall']; 
+        }         
+    }
+    else{$hall_city=NULL;}
+    
+    if(isset($_POST['phone_hall']))
+    {
+        if(!empty($_POST['phone_hall']))
+        {
+           $hall_phone=$_POST['phone_hall']; 
+        }       
+    }
+else{$hall_phone=NULL;}
+if(isset($_POST['size_hall']))
+    {
+        if(!empty($_POST['size_hall']))
+        {
+           $hall_size=$_POST['size_hall']; 
+        }        
+    }
+ else{$hall_size=NULL;}
+ if(isset($_POST['zone_hall']))
+    {
+        if(!empty($_POST['zone_hall']))
+        {
+           $zone_hall=$_POST['zone_hall']; 
+        }        
+    }
+ else{$zone_hall=NULL;}
+ if(isset($_POST['map_hall']))
+    {
+        if(!empty($_POST['map_hall']))
+        {
+           $map_hall=$_POST['map_hall']; 
+        }        
+    }
+ else{$map_hall=NULL;}
+ if(isset($_POST['type_hall']))
+    {
+        if(!empty($_POST['type_hall']))
+        {
+           $type_hall=$_POST['type_hall']; 
+        }        
+    }
+ else{$type_hall=NULL;}
+ if(isset($_POST['details_hall']))
+    {
+        if(!empty($_POST['details_hall']))
+        {
+           $details_hall=$_POST['details_hall']; 
+        }        
+    }
+ else{$details_hall=NULL;}
+ if(isset($_POST['price_hall']))
+    {
+        if(!empty($_POST['price_hall']))
+        {
+           $price_hall=$_POST['price_hall']; 
+        }        
+    }
+ else{$price_hall=NULL;}
+$re=update_hall_AND_pictures($hall_id,$hall_name,$hall_address,$hall_size,$hall_city,$zone_hall,$map_hall,$type_hall,$details_hall,$price_hall,$hall_phone,NULL,NULL,NULL,NULL,NULL);
+    if($re)
+    {
+         dyw_db_close();
+        echo "تمت العملية بنجاح";
+    }
+    else
+    {
+         dyw_db_close();
+        echo "فشلت العملية";
+    }
+}
+
